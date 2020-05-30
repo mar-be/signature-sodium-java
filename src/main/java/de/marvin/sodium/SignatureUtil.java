@@ -15,7 +15,7 @@ public class SignatureUtil {
 
     private static LazySodiumJava lazySodium = new LazySodiumJava(new SodiumJava());
 
-    public static void generateSigningKeys() throws SodiumException, IOException {
+    public static KeyPair generateSigningKeys() throws SodiumException, IOException {
         KeyPair kp = lazySodium.cryptoSignKeypair();
         Key publicKey = kp.getPublicKey();
         Key secretKey = kp.getSecretKey();
@@ -24,6 +24,7 @@ public class SignatureUtil {
         }
         writeKeyToFile(publicKey, "public.key");
         writeKeyToFile(secretKey, "secret.key");
+        return kp;
     }
 
     public static byte[] sign(byte[] messageBytes, Key secretKey){
